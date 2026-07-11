@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gabriel Montero · Tech & Growth Partner — Barcelona</title>
+  <meta name="description" content="Gabriel Montero — Técnico de sistemas y desarrollador web con enfoque en growth y marketing digital. Perfil híbrido: infraestructura TI + webs de alta conversión + automatización con IA. Barcelona." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Sora"', 'system-ui', 'sans-serif'],
+            sans: ['"Inter"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+          colors: {
+            ink: '#050506',
+            panel: '#0c0c0f',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root { --acc1:#a78bfa; --acc2:#22d3ee; --mx:50vw; --my:30vh; }
+    html, body { background:#050506; }
+    body { overflow-x:hidden; }
+
+    /* ---------- Fondo inmersivo ---------- */
+    .bg-fixed-layer { position:fixed; inset:0; z-index:-3; overflow:hidden; background:#050506; }
+    .blob { position:absolute; border-radius:9999px; filter:blur(90px); opacity:.5; will-change:transform; }
+    .blob-1 { width:44rem; height:44rem; top:-14rem; left:-10rem; background:radial-gradient(circle,#5b21b6,transparent 62%); animation:drift1 20s ease-in-out infinite; }
+    .blob-2 { width:40rem; height:40rem; bottom:-14rem; right:-10rem; background:radial-gradient(circle,#0e7490,transparent 62%); animation:drift2 24s ease-in-out infinite; }
+    .blob-3 { width:34rem; height:34rem; top:38%; left:52%; background:radial-gradient(circle,#4338ca,transparent 62%); opacity:.35; animation:drift3 28s ease-in-out infinite; }
+    @keyframes drift1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(8%,10%)} }
+    @keyframes drift2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-9%,-7%)} }
+    @keyframes drift3 { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-42%,-56%) scale(1.12)} }
+    /* Rejilla fina */
+    .bg-grid { position:fixed; inset:0; z-index:-2; opacity:.06;
+      background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);
+      background-size:52px 52px; mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 78%); }
+    /* Grano */
+    .bg-grain { position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    /* Spotlight del cursor */
+    .cursor-spot { position:fixed; inset:0; z-index:-1; pointer-events:none; transition:background .2s;
+      background:radial-gradient(340px circle at var(--mx) var(--my), rgba(167,139,250,0.10), transparent 70%); }
+
+    /* ---------- Utilidades ---------- */
+    .grad-text { background:linear-gradient(120deg,var(--acc1),var(--acc2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .grad-border { position:relative; }
+    .grad-border::before { content:""; position:absolute; inset:0; border-radius:inherit; padding:1px;
+      background:linear-gradient(135deg,rgba(167,139,250,.6),rgba(34,211,238,.3),transparent 60%);
+      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+      -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
+
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+    .reveal.in { opacity:1; transform:none; }
+
+    /* Marquee */
+    .marquee { display:flex; align-items:center; width:max-content; animation:scrollx 32s linear infinite; }
+    .marquee.rev { animation-direction:reverse; }
+    @keyframes scrollx { to { transform:translateX(-50%); } }
+
+    /* Barra progreso */
+    #prog { position:fixed; top:0; left:0; height:2px; width:0; z-index:60; background:linear-gradient(90deg,var(--acc1),var(--acc2)); }
+
+    /* Nav flotante */
+    .nav-hide { transform:translateY(-140%); }
+
+    /* Timeline línea */
+    .tl-line { background:linear-gradient(#a78bfa var(--fill,0%), rgba(255,255,255,.08) var(--fill,0%)); }
+
+    /* Preview iframe (miniatura de sitio en vivo) */
+    .frame-wrap { position:relative; overflow:hidden; }
+    .frame-wrap iframe { position:absolute; top:0; left:0; width:200%; height:200%; transform:scale(.5); transform-origin:0 0; border:0; pointer-events:none; }
+    .shimmer { background:linear-gradient(100deg,#0c0c0f 30%,#17171c 50%,#0c0c0f 70%); background-size:200% 100%; animation:sh 1.6s linear infinite; }
+    @keyframes sh { to { background-position:-200% 0; } }
+
+    .float-soft { animation:floaty 6s ease-in-out infinite; }
+    @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation:none !important; transition:none !important; }
+      .reveal { opacity:1; transform:none; }
+    }
+  </style>
+</head>
+
+<body class="font-sans text-neutral-300 antialiased selection:bg-violet-500/40 selection:text-white">
+
+  <!-- Fondo -->
+  <div class="bg-fixed-layer"><div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div></div>
+  <div class="bg-grid"></div>
+  <div class="cursor-spot" id="spot"></div>
+  <div class="bg-grain"></div>
+  <div id="prog"></div>
+
+  <!-- ============================= NAV ============================= -->
+  <nav id="nav" class="fixed inset-x-0 top-4 z-50 flex justify-center px-4 transition-transform duration-500">
+    <div class="grad-border flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] px-2 py-2 backdrop-blur-xl">
+      <a href="#inicio" class="rounded-full px-3 py-1.5 text-xs font-medium text-neutral-400 transition-colors hover:text-white sm:px-4">Inicio</a>
+      <a href="#sobre" class="rounded-full px-3 py-1.5 text-xs font-medium text-neutral-400 transition-colors hover:text-white sm:px-4">Perfil</a>
+      <a href="#servicios" class="hidden rounded-full px-4 py-1.5 text-xs font-medium text-neutral-400 transition-colors hover:text-white sm:block">Qué hago</a>
+      <a href="#proyectos" class="rounded-full px-3 py-1.5 text-xs font-medium text-neutral-400 transition-colors hover:text-white sm:px-4">Proyectos</a>
+      <a href="#experiencia" class="hidden rounded-full px-4 py-1.5 text-xs font-medium text-neutral-400 transition-colors hover:text-white md:block">Trayectoria</a>
+      <a href="#contacto" class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-black transition-all hover:bg-neutral-200 sm:px-4">Contacto</a>
+    </div>
+  </nav>
+
+  <main class="relative z-10">
+
+    <!-- ============================= HERO ============================= -->
+    <section id="inicio" class="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-5 pt-28 pb-16 md:grid md:grid-cols-[1.15fr_.85fr] md:items-center md:gap-10 md:pt-24">
+      <div>
+        <div class="reveal mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-neutral-400">
+          <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span></span>
+          Barcelona · Disponible para proyectos
+        </div>
+
+        <h1 class="reveal font-display text-5xl font-extrabold leading-[0.95] tracking-tight text-white sm:text-6xl md:text-7xl">
+          Gabriel<br /><span class="grad-text">Montero</span>
+        </h1>
+
+        <div class="reveal mt-5 flex items-center gap-3 font-mono text-sm text-neutral-400 sm:text-base">
+          <span class="text-violet-300">&gt;</span>
+          <span id="typewriter" class="text-neutral-200"></span><span class="inline-block h-4 w-[2px] animate-pulse bg-cyan-300 align-middle"></span>
+        </div>
+
+        <p class="reveal mt-6 max-w-xl text-base leading-relaxed text-neutral-400">
+          Perfil <span class="text-white">híbrido</span>: administración de sistemas y soporte TI con <span class="text-white">+4 años</span> de experiencia, unido a <span class="text-white">desarrollo web de alta conversión</span>, marketing digital (SEO/SEM) y <span class="text-white">automatización con IA</span>. Convierto la tecnología en resultados de negocio.
+        </p>
+
+        <div class="reveal mt-8 flex flex-wrap items-center gap-3">
+          <a href="#proyectos" data-magnet class="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-black transition-all hover:bg-neutral-200">
+            Ver proyectos
+            <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </a>
+          <a href="#contacto" data-magnet class="grad-border inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-6 py-3.5 text-sm font-semibold text-white transition-all hover:bg-white/[0.07]">
+            Hablemos
+          </a>
+        </div>
+
+        <!-- Contacto rápido -->
+        <div class="reveal mt-8 flex flex-wrap gap-4 text-xs text-neutral-500">
+          <a href="tel:+34697630378" class="flex items-center gap-1.5 transition-colors hover:text-white"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>697 63 03 78</a>
+          <a href="mailto:montero.forex@gmail.com" class="flex items-center gap-1.5 transition-colors hover:text-white"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>montero.forex@gmail.com</a>
+          <span class="flex items-center gap-1.5"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>Barcelona, 08036</span>
+        </div>
+      </div>
+
+      <!-- Foto -->
+      <div class="reveal relative mx-auto mt-12 w-full max-w-xs md:mt-0">
+        <div class="absolute -inset-4 rounded-[2rem] bg-gradient-to-tr from-violet-600/30 via-cyan-500/20 to-transparent blur-2xl"></div>
+        <div class="grad-border float-soft relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-panel">
+          <img src="assets/fotocv.jpg" alt="Gabriel Montero" class="w-full object-cover contrast-[1.05] saturate-[0.9]" />
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+            <div>
+              <p class="font-display text-sm font-semibold text-white">Gabriel Montero</p>
+              <p class="text-[11px] text-neutral-400">Admin. Sistemas · Web · Growth</p>
+            </div>
+            <span class="rounded-full border border-white/15 bg-black/40 px-2.5 py-1 text-[10px] font-medium text-cyan-300 backdrop-blur">+4 años</span>
+          </div>
+        </div>
+        <!-- badges flotantes -->
+        <div class="grad-border absolute -left-6 top-10 hidden rounded-2xl border border-white/10 bg-panel/90 px-3 py-2 text-xs backdrop-blur md:block" style="animation:floaty 7s ease-in-out infinite">
+          <p class="font-mono text-cyan-300">{ fullstack }</p>
+        </div>
+        <div class="grad-border absolute -right-5 bottom-16 hidden rounded-2xl border border-white/10 bg-panel/90 px-3 py-2 text-xs backdrop-blur md:block" style="animation:floaty 5.5s ease-in-out infinite">
+          <p class="font-mono text-violet-300">IA · Growth</p>
+        </div>
+      </div>
+
+      <a href="#sobre" class="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-[11px] uppercase tracking-widest text-neutral-600 md:flex">
+        Scroll
+        <span class="flex h-8 w-5 justify-center rounded-full border border-white/15 pt-1.5"><span class="h-1.5 w-1 animate-bounce rounded-full bg-white/60"></span></span>
+      </a>
+    </section>
+
+    <!-- ============================= MARQUEE SKILLS ============================= -->
+    <section class="relative border-y border-white/5 py-5">
+      <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-ink to-transparent"></div>
+      <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-ink to-transparent"></div>
+      <div class="overflow-hidden">
+        <div id="marquee" class="marquee font-display text-lg font-medium text-neutral-500"></div>
+      </div>
+    </section>
+
+    <!-- ============================= SOBRE MÍ + STATS ============================= -->
+    <section id="sobre" class="mx-auto max-w-6xl px-5 py-24">
+      <div class="grid gap-12 md:grid-cols-[1fr_1.1fr] md:items-center">
+        <div class="reveal">
+          <p class="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-violet-300">// Perfil</p>
+          <h2 class="font-display text-3xl font-bold leading-tight text-white sm:text-4xl">
+            Tecnología con <span class="grad-text">mentalidad de negocio</span>.
+          </h2>
+          <p class="mt-6 leading-relaxed text-neutral-400">
+            Soy técnico superior en Sistemas Informáticos y Redes. He administrado infraestructura, redes y soporte TI en empresas como El Corte Inglés, IDP y Hit Systems. En paralelo diseño y programo webs orientadas a conversión y aplico marketing digital y automatización con IA.
+          </p>
+          <p class="mt-4 leading-relaxed text-neutral-400">
+            El resultado es un perfil poco común: entiendo la <span class="text-white">infraestructura</span> y también entiendo cómo esa tecnología <span class="text-white">genera clientes y ventas</span>. Un solo interlocutor para tu sistema, tu web y tu crecimiento.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-2">
+            <span class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-neutral-300">Español · Nativo</span>
+            <span class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-neutral-300">Català · Natiu</span>
+            <span class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-neutral-300">English · Alto</span>
+            <span class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-neutral-300">Italiano · Intermedio</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="reveal grad-border rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+            <p class="font-display text-4xl font-extrabold text-white"><span class="counter" data-target="4">0</span>+</p>
+            <p class="mt-1 text-sm text-neutral-500">Años en TI y soporte</p>
+          </div>
+          <div class="reveal grad-border rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+            <p class="font-display text-4xl font-extrabold text-white"><span class="counter" data-target="10">0</span></p>
+            <p class="mt-1 text-sm text-neutral-500">Proyectos web entregados</p>
+          </div>
+          <div class="reveal grad-border rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+            <p class="font-display text-4xl font-extrabold text-white"><span class="counter" data-target="3">0</span></p>
+            <p class="mt-1 text-sm text-neutral-500">Empresas de tecnología</p>
+          </div>
+          <div class="reveal grad-border rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+            <p class="font-display text-4xl font-extrabold grad-text">SEO<span class="text-white">/</span>SEM</p>
+            <p class="mt-1 text-sm text-neutral-500">Marketing & posicionamiento</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= QUÉ HAGO ============================= -->
+    <section id="servicios" class="mx-auto max-w-6xl px-5 py-24">
+      <div class="reveal mb-14 max-w-2xl">
+        <p class="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-violet-300">// Capacidades</p>
+        <h2 class="font-display text-3xl font-bold leading-tight text-white sm:text-4xl">Todo lo que puedo resolver, <span class="grad-text">bajo un mismo techo</span>.</h2>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4" id="servicios-grid"></div>
+    </section>
+
+    <!-- ============================= PROYECTO ESTRELLA: KURBANI ============================= -->
+    <section id="proyectos" class="mx-auto max-w-6xl px-5 pt-10">
+      <div class="reveal mb-10 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-violet-300">// Portafolio</p>
+          <h2 class="font-display text-3xl font-bold leading-tight text-white sm:text-4xl">Proyectos <span class="grad-text">en vivo</span>.</h2>
+        </div>
+        <p class="max-w-sm text-sm text-neutral-500">Previsualizaciones reales de cada demo. Pulsa cualquiera para abrirla a pantalla completa.</p>
+      </div>
+
+      <!-- Kurbani destacado -->
+      <article class="reveal grad-border group relative mb-6 overflow-hidden rounded-3xl border border-white/10 bg-panel">
+        <div class="grid md:grid-cols-2">
+          <div class="frame-wrap aspect-[16/11] border-b border-white/5 md:border-b-0 md:border-r">
+            <div class="shimmer absolute inset-0"></div>
+            <iframe data-src="https://kurbani-pre-baxt.onrender.com" title="Kurbani CRM" loading="lazy" scrolling="no"></iframe>
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-panel/60 to-transparent"></div>
+          </div>
+          <div class="flex flex-col justify-center p-7 md:p-10">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="rounded-full bg-gradient-to-r from-violet-500 to-cyan-500 px-3 py-1 text-[11px] font-semibold text-white">Proyecto estrella</span>
+              <span class="rounded-full border border-white/10 px-3 py-1 text-[11px] text-neutral-400">App · IA · Fullstack</span>
+            </div>
+            <h3 class="font-display text-2xl font-bold text-white sm:text-3xl">Kurbani — CRM Inmobiliario con IA</h3>
+            <p class="mt-4 leading-relaxed text-neutral-400">
+              Aplicación web <span class="text-white">fullstack</span>, programada y lista para usar. Evita que los agentes inmobiliarios dejen <span class="text-white">enfriar sus leads</span> y ordena la gestión comercial. La <span class="text-white">IA clasifica automáticamente cada lead por urgencia y probabilidad de venta</span>, para que el equipo ataque siempre lo que más convierte.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-2 text-[11px] text-neutral-400">
+              <span class="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1">Scoring de leads con IA</span>
+              <span class="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1">Automatización</span>
+              <span class="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1">Backend + Frontend</span>
+              <span class="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1">Gestión comercial</span>
+            </div>
+            <a href="https://kurbani-pre-baxt.onrender.com" target="_blank" rel="noopener" class="group/btn mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition-all hover:bg-neutral-200">
+              Abrir aplicación
+              <svg class="h-4 w-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Filtros -->
+      <div class="reveal mb-6 flex flex-wrap gap-2" id="pfiltros"></div>
+
+      <!-- Grid de proyectos -->
+      <div id="proyectos-grid" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+    </section>
+
+    <!-- ============================= EXPERIENCIA / TIMELINE ============================= -->
+    <section id="experiencia" class="mx-auto max-w-4xl px-5 py-28">
+      <div class="reveal mb-14">
+        <p class="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-violet-300">// Trayectoria</p>
+        <h2 class="font-display text-3xl font-bold leading-tight text-white sm:text-4xl">Experiencia & formación</h2>
+      </div>
+
+      <div class="relative pl-8" id="timeline">
+        <!-- línea vertical -->
+        <div class="tl-line absolute left-[7px] top-2 bottom-2 w-[2px] rounded-full" id="tlLine"></div>
+        <div id="timeline-items" class="space-y-10"></div>
+      </div>
+
+      <!-- Formación -->
+      <div class="mt-14 grid gap-4 sm:grid-cols-2">
+        <div class="reveal grad-border rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+          <p class="font-display text-sm font-semibold text-white">Técnico Superior en Sistemas Informáticos y Redes</p>
+          <p class="mt-1 text-xs text-neutral-500">Institut Sabadell · 2018 – 2021</p>
+          <p class="mt-3 text-xs leading-relaxed text-neutral-400">Ciberseguridad (Kali Linux, Metasploit), administración de sistemas y usuarios, servidores web (PrestaShop, Shopify), programación (Python, JavaScript, Golang) y servidores DNS/DHCP/Active Directory.</p>
+        </div>
+        <div class="reveal space-y-3">
+          <div class="grad-border rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+            <p class="text-sm font-semibold text-white">Linux Essentials Professional Development</p>
+            <p class="text-xs text-neutral-500">Cisco Networking Academy · 2018</p>
+          </div>
+          <div class="grad-border rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+            <p class="text-sm font-semibold text-white">Digitalización Empresarial y YouTube</p>
+            <p class="text-xs text-neutral-500">Google Actívate · 2022</p>
+          </div>
+          <div class="grad-border rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+            <p class="text-sm font-semibold text-white">Posicionamiento Web SEO / SEM</p>
+            <p class="text-xs text-neutral-500">Centre Jaume Villadoms · 2020</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= CONTACTO ============================= -->
+    <section id="contacto" class="mx-auto max-w-5xl px-5 pb-28">
+      <div class="reveal grad-border relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-8 text-center sm:p-14">
+        <div class="pointer-events-none absolute -top-20 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-violet-600/30 blur-3xl"></div>
+        <p class="relative mb-3 font-mono text-xs uppercase tracking-[0.3em] text-cyan-300">// Hablemos</p>
+        <h2 class="relative font-display text-3xl font-bold leading-tight text-white sm:text-5xl">¿Tienes un proyecto <span class="grad-text">o una vacante</span>?</h2>
+        <p class="relative mx-auto mt-5 max-w-xl text-neutral-400">Tecnología, web y crecimiento con una sola persona. Escríbeme y te respondo hoy mismo.</p>
+
+        <div class="relative mt-9 flex flex-wrap justify-center gap-3">
+          <a href="mailto:montero.forex@gmail.com" data-magnet class="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-black transition-all hover:bg-neutral-200">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+            montero.forex@gmail.com
+          </a>
+          <a href="https://wa.me/34697630378?text=Hola%20Gabriel%2C%20he%20visto%20tu%20web%20y%20me%20gustar%C3%ADa%20hablar%20contigo." target="_blank" rel="noopener" data-magnet class="grad-border inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-6 py-3.5 text-sm font-semibold text-white transition-all hover:bg-white/[0.07]">
+            <svg class="h-4 w-4 text-[#25D366]" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347"/></svg>
+            WhatsApp
+          </a>
+          <a href="tel:+34697630378" data-magnet class="grad-border inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-6 py-3.5 text-sm font-semibold text-white transition-all hover:bg-white/[0.07]">
+            697 63 03 78
+          </a>
+        </div>
+        <p class="relative mt-8 text-xs text-neutral-600">Barcelona, 08036 · LinkedIn: Gabriel Montero</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/5 px-5 py-8 text-center text-xs text-neutral-600">
+    © 2026 Gabriel Montero · Admin. de Sistemas · Desarrollo Web · Growth Partner — Barcelona
+  </footer>
+
+  <!-- ============================= LÓGICA ============================= -->
+  <script>
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* ---- Spotlight del cursor ---- */
+    if (!reduce && matchMedia("(pointer:fine)").matches) {
+      window.addEventListener("pointermove", (e) => {
+        document.documentElement.style.setProperty("--mx", e.clientX + "px");
+        document.documentElement.style.setProperty("--my", e.clientY + "px");
+      });
+    }
+
+    /* ---- Barra de progreso + nav ocultar ---- */
+    const prog = document.getElementById("prog");
+    const nav = document.getElementById("nav");
+    let lastY = 0;
+    addEventListener("scroll", () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      prog.style.width = (max ? (h.scrollTop / max) * 100 : 0) + "%";
+      const y = h.scrollTop;
+      if (y > lastY && y > 300) nav.classList.add("nav-hide"); else nav.classList.remove("nav-hide");
+      lastY = y;
+    }, { passive: true });
+
+    /* ---- Typewriter ---- */
+    const roles = ["Técnico de Sistemas & Redes","Desarrollador Web Full-stack","Growth Partner","Marketing Digital · SEO/SEM","Automatización con IA"];
+    const tw = document.getElementById("typewriter");
+    let ri = 0, ci = 0, del = false;
+    (function type() {
+      const w = roles[ri];
+      tw.textContent = w.slice(0, ci);
+      if (!del && ci < w.length) { ci++; setTimeout(type, 55); }
+      else if (!del) { del = true; setTimeout(type, 1600); }
+      else if (del && ci > 0) { ci--; setTimeout(type, 28); }
+      else { del = false; ri = (ri + 1) % roles.length; setTimeout(type, 260); }
+    })();
+
+    /* ---- Marquee ---- */
+    const skills = ["Active Directory","GNU/Linux","Python","JavaScript","Golang","DNS · DHCP","MySQL / MariaDB","WordPress · Elementor","Shopify","PrestaShop","SEO / SEM","Git","Kali · Metasploit","Office 365","CRM Salesforce · Zoho","Automatización IA","HTML · CSS","Redes & VPN"];
+    const line = skills.map(s => `<span class="mx-6 inline-flex shrink-0 items-center gap-6 whitespace-nowrap"><span class="transition-colors hover:text-white">${s}</span><span class="text-violet-400/50">✦</span></span>`).join("");
+    // Duplicamos la lista para que el bucle (translateX -50%) sea continuo y sin saltos
+    document.getElementById("marquee").innerHTML = line + line;
+
+    /* ---- Servicios ---- */
+    const SERVICIOS = [
+      { t:"Sistemas & Redes", d:"Administración de servidores, Active Directory, redes, VPN y soporte técnico TI en entornos reales.", tags:["Windows Server","Linux","VPN","Helpdesk"], ic:'M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z' },
+      { t:"Desarrollo Web", d:"Webs y landings rápidas, responsive y orientadas a conversión. De WordPress a código a medida.", tags:["HTML/CSS/JS","WordPress","Shopify","UX/CRO"], ic:'M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5' },
+      { t:"Growth & Marketing", d:"SEO/SEM, embudos y estrategia digital para convertir visitas en clientes y leads en ventas.", tags:["SEO","SEM","CRO","Analítica"], ic:'M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z' },
+      { t:"Automatización & IA", d:"CRMs, scripts y flujos con IA que ordenan leads, ahorran horas y priorizan lo que vende.", tags:["IA","Scripting","CRM","Integraciones"], ic:'M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z' },
+    ];
+    document.getElementById("servicios-grid").innerHTML = SERVICIOS.map(s => `
+      <article class="tilt reveal grad-border group rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-colors hover:bg-white/[0.05]">
+        <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-violet-500/20 to-cyan-500/10 text-cyan-300">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="${s.ic}"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-white">${s.t}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-neutral-400">${s.d}</p>
+        <div class="mt-4 flex flex-wrap gap-1.5">${s.tags.map(t=>`<span class="rounded-md border border-white/5 bg-white/[0.03] px-2 py-0.5 text-[10px] text-neutral-400">${t}</span>`).join("")}</div>
+      </article>`).join("");
+
+    /* ---- Proyectos ---- */
+    const PROYECTOS = [
+      { n:"MAD Parfumeur", cat:"E-commerce", url:"https://madparfum-demo.vercel.app", d:"Escaparate premium de perfumería con reserva por WhatsApp." },
+      { n:"Francisco Carrasco", cat:"Landing", url:"https://franciscocarrasco-demo.vercel.app/", d:"Landing de infoproducto optimizada a conversión." },
+      { n:"Electrans", cat:"Corporativa", url:"https://electrans.vercel.app/", d:"Web corporativa · señalización ferroviaria SIL-4." },
+      { n:"Demapol", cat:"Corporativa", url:"https://demapol-demo.vercel.app/", d:"Ingeniería industrial de alta precisión." },
+      { n:"Sumatec", cat:"Corporativa", url:"https://sumatec-demo.vercel.app/", d:"Estanqueidad y sellado industrial · B2B." },
+      { n:"Sipel", cat:"Corporativa", url:"https://sipel-demo.vercel.app/", d:"Fabricación electrónica de precisión (EMS)." },
+      { n:"Habitare & Co", cat:"Inmobiliaria", url:"https://inmobiliarias-bcn.vercel.app/", d:"Inmobiliaria + interiorismo en Barcelona." },
+      { n:"Urban Grup", cat:"Inmobiliaria", url:"https://urbangroup-demo.vercel.app/", d:"Inmobiliaria en el área metropolitana de BCN." },
+      { n:"Amida Immobles", cat:"Inmobiliaria", url:"https://amida-demo.vercel.app/", d:"Gestión inmobiliaria en Sabadell y Cambrils." },
+    ];
+    const grid = document.getElementById("proyectos-grid");
+    grid.innerHTML = PROYECTOS.map(p => `
+      <article class="proyecto reveal grad-border group overflow-hidden rounded-2xl border border-white/10 bg-panel" data-cat="${p.cat}">
+        <a href="${p.url}" target="_blank" rel="noopener" class="block">
+          <div class="frame-wrap aspect-[16/10] border-b border-white/5">
+            <div class="shimmer absolute inset-0"></div>
+            <iframe data-src="${p.url}" title="${p.n}" loading="lazy" scrolling="no"></iframe>
+            <div class="absolute inset-0 bg-gradient-to-t from-panel/70 via-transparent to-transparent transition-opacity duration-500 group-hover:from-panel/40"></div>
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 backdrop-blur-[2px] transition-opacity duration-500 group-hover:opacity-100">
+              <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold text-black">Ver en vivo
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+              </span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between p-5">
+            <div>
+              <h3 class="font-display text-base font-semibold text-white">${p.n}</h3>
+              <p class="mt-0.5 text-xs text-neutral-500">${p.d}</p>
+            </div>
+            <span class="ml-3 shrink-0 rounded-full border border-white/10 px-2.5 py-1 text-[10px] text-neutral-400">${p.cat}</span>
+          </div>
+        </a>
+      </article>`).join("");
+
+    /* Filtros de proyectos */
+    const cats = ["Todos", ...Array.from(new Set(PROYECTOS.map(p => p.cat)))];
+    const fbox = document.getElementById("pfiltros");
+    fbox.innerHTML = cats.map((c,i)=>`<button data-f="${c}" class="pchip rounded-full border border-white/10 px-4 py-2 text-xs font-medium transition-all duration-300 ${i===0?'bg-white text-black':'bg-white/[0.03] text-neutral-400 hover:text-white'}">${c}</button>`).join("");
+    fbox.addEventListener("click", (e) => {
+      const b = e.target.closest(".pchip"); if(!b) return;
+      fbox.querySelectorAll(".pchip").forEach(x=>{x.classList.remove("bg-white","text-black");x.classList.add("bg-white/[0.03]","text-neutral-400");});
+      b.classList.add("bg-white","text-black"); b.classList.remove("bg-white/[0.03]","text-neutral-400");
+      const f = b.dataset.f;
+      document.querySelectorAll(".proyecto").forEach(card=>{ card.style.display = (f==="Todos"||card.dataset.cat===f)?"":"none"; });
+    });
+
+    /* ---- Experiencia (timeline) ---- */
+    const EXP = [
+      { c:"El Corte Inglés S.A.", r:"Encargado de Postventa · Técnico Informático de TI", f:"Dic 2024 – Mar 2026", b:["Diagnóstico y resolución de incidencias en dispositivos y software.","Instalación y mantenimiento de equipos informáticos y móviles (in situ).","Asesoramiento al cliente y soporte postventa.","Coordinación de tareas e incidencias en punto de venta."] },
+      { c:"IDP Arquitectura e Ingeniería", r:"Técnico Informático · Soporte Técnico", f:"Oct 2022 – Jul 2024", b:["Soporte técnico y resolución de incidencias para toda la plantilla.","Configuración de routers y VPN garantizando la seguridad.","Gestión de usuarios y administración con Active Directory.","Instalación y actualización de software corporativo."] },
+      { c:"Hit Systems Retail Solutions S.L", r:"Técnico Informático · Soporte Técnico", f:"Mar 2021 – Ago 2022", b:["Configuración de routers y VPN en entorno retail.","Automatización de tareas con scripting, reduciendo trabajo manual.","Gestión de bases de datos y administración de sistemas internos.","Montaje y mantenimiento de equipos en punto de venta."] },
+    ];
+    document.getElementById("timeline-items").innerHTML = EXP.map(e => `
+      <div class="reveal relative">
+        <span class="absolute -left-8 top-1.5 flex h-4 w-4 items-center justify-center rounded-full border-2 border-violet-400 bg-ink"><span class="h-1.5 w-1.5 rounded-full bg-cyan-300"></span></span>
+        <p class="font-mono text-xs text-cyan-300">${e.f}</p>
+        <h3 class="mt-1 font-display text-lg font-semibold text-white">${e.r}</h3>
+        <p class="text-sm text-neutral-400">${e.c}</p>
+        <ul class="mt-3 space-y-1.5">${e.b.map(x=>`<li class="flex gap-2 text-sm text-neutral-500"><span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-violet-400"></span>${x}</li>`).join("")}</ul>
+      </div>`).join("");
+
+    /* ---- Reveal + counters + lazy iframes ---- */
+    const io = new IntersectionObserver((es)=>{es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }});},{threshold:.12});
+    document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+
+    const cio = new IntersectionObserver((es)=>{es.forEach(en=>{ if(en.isIntersecting){ animateCount(en.target); cio.unobserve(en.target);} });},{threshold:.6});
+    document.querySelectorAll(".counter").forEach(el=>cio.observe(el));
+    function animateCount(el){ const t=+el.dataset.target; let n=0; const step=Math.max(1,Math.round(t/40)); const iv=setInterval(()=>{ n+=step; if(n>=t){n=t;clearInterval(iv);} el.textContent=n; },28); }
+
+    // Cargar iframes solo cuando entran en pantalla (rendimiento)
+    const fio = new IntersectionObserver((es)=>{es.forEach(en=>{ if(en.isIntersecting){ const f=en.target; if(f.dataset.src){ f.src=f.dataset.src; f.removeAttribute("data-src"); } fio.unobserve(f);} });},{rootMargin:"200px"});
+    document.querySelectorAll("iframe[data-src]").forEach(f=>fio.observe(f));
+
+    /* ---- Timeline línea que se rellena con el scroll ---- */
+    const tlLine = document.getElementById("tlLine");
+    const tl = document.getElementById("timeline");
+    addEventListener("scroll", ()=>{
+      const r = tl.getBoundingClientRect();
+      const vh = innerHeight;
+      const p = Math.min(1, Math.max(0, (vh*0.6 - r.top) / (r.height)));
+      tlLine.style.setProperty("--fill", (p*100)+"%");
+    }, { passive:true });
+
+    /* ---- Botones magnéticos + tilt (solo puntero fino) ---- */
+    if (!reduce && matchMedia("(pointer:fine)").matches) {
+      document.querySelectorAll("[data-magnet]").forEach(el=>{
+        el.addEventListener("pointermove",(e)=>{ const r=el.getBoundingClientRect(); el.style.transform=`translate(${(e.clientX-r.left-r.width/2)*0.2}px,${(e.clientY-r.top-r.height/2)*0.3}px)`; });
+        el.addEventListener("pointerleave",()=>{ el.style.transform=""; });
+      });
+      document.querySelectorAll(".tilt").forEach(el=>{
+        el.addEventListener("pointermove",(e)=>{ const r=el.getBoundingClientRect(); const rx=((e.clientY-r.top)/r.height-.5)*-6; const ry=((e.clientX-r.left)/r.width-.5)*6; el.style.transform=`perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`; });
+        el.addEventListener("pointerleave",()=>{ el.style.transform=""; });
+      });
+    }
+  </script>
+</body>
+</html>
